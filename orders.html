@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesanan Saya — Mie Ayam Gendok</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/auth.js" data-guard="customer"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="bowl">🍜</span> Mie Ayam Gendok</a>
+    <nav class="main-nav">
+      <a href="index.html">Beranda</a>
+      <a href="menu.html">Menu</a>
+      <a href="orders.html" class="active">Pesanan Saya</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html" class="btn-outline btn btn-sm">Login</a>
+      <a href="cart.html" class="cart-btn" aria-label="Keranjang">
+        🛒 <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="menu-header">
+  <div class="wrap">
+    <h1>Pesanan Saya</h1>
+    <p>Riwayat pesanan yang kamu buat dengan akun ini.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding: 20px 0 100px; max-width: 760px;">
+  <div id="orders-list"></div>
+  <div id="orders-empty" style="display:none; text-align:center; padding: 50px 0; color: var(--gray);">
+    <p style="font-size:2.2rem; margin-bottom:10px;">🧾</p>
+    <p>Belum ada riwayat pesanan.</p>
+    <a href="menu.html" class="btn btn-red" style="margin-top:16px;">Mulai Pesan</a>
+  </div>
+</section>
+
+<script src="assets/js/cart.js"></script>
+<script>
+  const PAYMENT_LABEL = { tunai: 'Tunai', qris: 'QRIS', transfer: 'Bank Transfer' };
+  const DELIVERY_LABEL = { ambil: 'Ambil Sendiri', kurir: 'Kurir' };
+  const STATUS_LABEL = { baru: 'Pesanan Baru', diproses: 'Sedang Diproses', selesai: 'Selesai', dibatalkan: 'Dibatalkan' };
+  const STATUS_STYLE = {
+    baru: 'background:#fdecea;color:#c0392b;',
+    diproses: 'background:#fff4d6;color:#9a6b00;',
+    selesai: 'background:#f2fbf4;color:#2d8a4e;',
+    dibatalkan: 'background:#eee;color:#777;'
+  };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  let lastSig = null;
+  async function renderOrders() {
+    let orders;
+    try { orders = await Orders.mine(); } catch (e) { return; }
+    const sig = JSON.stringify(orders);
+    if (sig === lastSig) return;
+    lastSig = sig;
+    const list = document.getElementById('orders-list');
+    const empty = document.getElementById('orders-empty');
+
+    if (orders.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    list.innerHTML = orders.map((order) => {
+      const st = STATUS_LABEL[order.status] ? order.status : 'baru';
+      return `
+      <div class="panel" style="margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <strong>#${esc(order.id)}</strong>
+            <span style="color:var(--gray); font-size:0.85rem; margin-left:8px;">${esc(order.date)}</span>
+          </div>
+          <span style="${STATUS_STYLE[st]} font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:999px;">${STATUS_LABEL[st]}</span>
+        </div>
+        ${order.items.map((it) => `
+          <div class="summary-item">
+            <div>
+              <div class="name">${esc(it.name)}</div>
+              <div class="sub">${it.qty} x ${formatRupiah(it.price)}</div>
+            </div>
+            <div>${formatRupiah(it.qty * it.price)}</div>
+          </div>
+        `).join('')}
+        <div class="summary-line"><span>Metode Pengiriman</span><span>${DELIVERY_LABEL[order.delivery] || esc(order.delivery)}</span></div>
+        <div class="summary-line"><span>Metode Pembayaran</span><span>${PAYMENT_LABEL[order.payment] || esc(order.payment)}</span></div>
+        <div class="summary-total"><span>Total</span><span class="amount">${formatRupiah(order.total)}</span></div>
+      </div>`;
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', renderOrders);
+  // status diperbarui admin di tab lain -> tampil otomatis
+  window.addEventListener('storage', (e) => { if (e.key === 'mag_orders') renderOrders(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) renderOrders(); });
+  window.addEventListener('pageshow', renderOrders);
+  setInterval(renderOrders, 8000);
+</script>
+</body>
+</html>

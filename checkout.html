@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Mie Ayam Gendok</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/auth.js" data-guard="customer"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="bowl">🍜</span> Mie Ayam Gendok</a>
+    <nav class="main-nav">
+      <a href="index.html">Beranda</a>
+      <a href="menu.html">Menu</a>
+      <a href="orders.html">Pesanan Saya</a>
+      <a href="index.html#kontak">Kontak</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html" class="btn-outline btn btn-sm">Login</a>
+      <a href="cart.html" class="cart-btn" aria-label="Keranjang">
+        🛒 <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="checkout-page">
+  <div class="wrap">
+
+    <div id="checkout-form-wrap">
+      <form id="checkout-form">
+        <div class="panel">
+          <h2>Detail Pengiriman</h2>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="ck-name">Nama Lengkap</label>
+              <input id="ck-name" type="text" placeholder="Masukkan nama Anda" required>
+            </div>
+            <div class="field">
+              <label for="ck-wa">Nomor WhatsApp</label>
+              <input id="ck-wa" type="tel" placeholder="Contoh: 0812XXXXXXXX" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Metode Pengiriman</label>
+            <div class="method-toggle">
+              <label class="opt selected">
+                <input type="radio" name="delivery" value="ambil" checked> Ambil Sendiri
+              </label>
+              <label class="opt">
+                <input type="radio" name="delivery" value="kurir"> Kurir
+              </label>
+            </div>
+          </div>
+
+          <div class="field" id="address-field" style="display:none;">
+            <label for="ck-address">Alamat Pengantaran</label>
+            <textarea id="ck-address" placeholder="Nama jalan, nomor rumah, RT/RW, patokan"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="ck-note">Catatan Pesanan (opsional)</label>
+            <textarea id="ck-note" placeholder="Contoh: Sambal dipisah, ya"></textarea>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Metode Pembayaran</h2>
+          <label class="pay-opt selected">
+            <input type="radio" name="payment" value="tunai" checked> Tunai <span style="font-weight:400; color:var(--gray);">(bayar di tempat)</span>
+          </label>
+          <label class="pay-opt">
+            <input type="radio" name="payment" value="qris"> QRIS <span style="font-weight:400; color:var(--gray);">(scan &amp; bayar dengan aplikasi apa saja)</span>
+          </label>
+          <label class="pay-opt">
+            <input type="radio" name="payment" value="transfer"> Bank Transfer <span style="font-weight:400; color:var(--gray);">(BCA, Mandiri, BRI)</span>
+          </label>
+
+          <button type="submit" class="btn btn-yellow btn-block" style="margin-top:8px;">Konfirmasi Pesanan</button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="panel" id="summary-panel">
+      <h2>Ringkasan Pesanan</h2>
+      <div id="summary-items"></div>
+      <div class="summary-line"><span>Subtotal</span><span id="sum-subtotal">Rp0</span></div>
+      <div class="summary-line"><span>Ongkos Kirim</span><span id="sum-ongkir">Gratis</span></div>
+      <div class="summary-total"><span>Total Pembayaran</span><span class="amount" id="sum-total">Rp0</span></div>
+
+      <div class="success-box" id="success-box" style="display:none;">
+        <p class="title">✓ Pesanan berhasil dibuat!</p>
+        <p class="eta">Estimasi waktu selesai: 15–20 Menit</p>
+        <div class="timeline">
+          <div class="step done"><span class="dot"></span> Pesanan Diterima</div>
+          <div class="step"><span class="dot"></span> Sedang Diproses</div>
+          <div class="step"><span class="dot"></span> Pesanan Selesai</div>
+        </div>
+        <a href="orders.html" class="btn btn-outline btn-block" style="margin-top:16px;">Lihat Riwayat Pesanan</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- QRIS overlay -->
+<div class="qris-overlay" id="qris-overlay">
+  <div class="qris-card">
+    <h3>Total Pembayaran</h3>
+    <p class="amount" id="qris-amount">Rp0</p>
+    <div class="qris-code">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=MieAyamGendok-QRIS-Demo" alt="Kode QRIS">
+    </div>
+    <p class="qris-timer">⏱ Selesaikan pembayaran dalam 10:00</p>
+    <ul class="qris-steps">
+      <li>1. Buka aplikasi e-wallet (GoPay, OVO, Dana, dll) atau mobile banking Anda.</li>
+      <li>2. Scan kode QR di atas.</li>
+      <li>3. Pastikan nominal Rp30.000 sudah sesuai, lalu konfirmasi.</li>
+    </ul>
+    <button type="button" class="btn btn-yellow btn-block" id="qris-confirm">Saya Sudah Bayar</button>
+    <button type="button" class="btn btn-outline btn-block" id="qris-cancel" style="margin-top:10px;">Batalkan</button>
+  </div>
+</div>
+
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/checkout.js"></script>
+</body>
+</html>

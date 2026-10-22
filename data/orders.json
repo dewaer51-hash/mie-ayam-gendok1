@@ -1,0 +1,62 @@
+[
+  {
+    "id": "MAG1175013",
+    "userId": "dewaer51@gmail.com",
+    "status": "diproses",
+    "createdAt": "2026-10-22T03:52:55.022Z",
+    "date": "22 Okt 2026, 10.52",
+    "items": [
+      {
+        "id": "mie-bakso",
+        "name": "Mie Ayam Bakso",
+        "price": 15000,
+        "qty": 1
+      }
+    ],
+    "delivery": "kurir",
+    "payment": "tunai",
+    "total": 15000,
+    "customer": {
+      "name": "Dewa Er",
+      "wa": "123578910",
+      "note": "",
+      "address": "fgklhjhj"
+    }
+  },
+  {
+    "id": "MAG3713613",
+    "userId": "dewaer51@gmail.com",
+    "status": "diproses",
+    "createdAt": "2026-10-21T09:08:33.614Z",
+    "date": "21 Okt 2026, 16.08",
+    "items": [
+      {
+        "id": "mie-bakso",
+        "name": "Mie Ayam Bakso",
+        "price": 15000,
+        "qty": 1
+      },
+      {
+        "id": "pangsit-original-kuah",
+        "name": "Pangsit Original (Kuah)",
+        "price": 12000,
+        "qty": 1
+      },
+      {
+        "id": "es-teh-manis",
+        "name": "Es Teh Manis",
+        "price": 5000,
+        "qty": 1
+      }
+    ],
+    "delivery": "kurir",
+    "payment": "tunai",
+    "total": 32000,
+    "customer": {
+      "name": "Dewa Er",
+      "wa": "002897729",
+      "note": "air sma esnya dipisah sma gulanya juga",
+      "address": "rumah gw"
+    }
+  }
+]

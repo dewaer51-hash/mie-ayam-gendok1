@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masuk atau Daftar — Mie Ayam Gendok</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/auth.js"></script>
+<style>
+  .form-error { display: none; color: #c0392b; background: #fdecea; border-radius: 8px; padding: 9px 12px; font-size: .86rem; margin: 0 0 14px; }
+  .auth-card .label-row a, .auth-card .auth-switch a { cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="auth-page">
+
+  <!-- KIRI: FOTO -->
+  <aside class="auth-visual" style="background-image:url('assets/img/mie-bakso.png');">
+    <a href="index.html" class="back-home">← Kembali ke Beranda</a>
+    <div class="caption">
+      <span class="auth-pill">🍜 Mie Ayam Gendok</span>
+      <h2>Digital Comfort Food.</h2>
+      <p>Kehangatan di setiap mangkuk, hanya sejauh satu klik.</p>
+      <ul class="auth-perks">
+        <li>Pesan dari mana saja, kapan saja</li>
+        <li>Bayar praktis dengan QRIS</li>
+        <li>Riwayat pesanan tersimpan rapi</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- KANAN: FORM -->
+  <main class="auth-panel">
+    <div class="auth-card">
+      <a href="index.html" class="logo"><span class="bowl">🍜</span> Mie Ayam Gendok</a>
+
+      <h1 class="auth-title" id="auth-title">Selamat datang kembali</h1>
+      <p class="auth-sub" id="auth-sub">Masuk untuk memesan mie ayam favoritmu.</p>
+
+      <div class="auth-tabs">
+        <button type="button" class="active" data-tab="login">Login</button>
+        <button type="button" data-tab="register">Register</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form class="auth-form active" data-form="login" novalidate>
+        <p class="form-error" role="alert"></p>
+
+        <div class="field">
+          <label for="login-email">Email atau Username</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <input id="login-email" type="text" placeholder="Masukkan email atau username" autocomplete="username" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="label-row">
+            <label for="login-password">Password</label>
+            <a href="#" data-soon="Fitur reset password belum tersedia di versi demo.">Lupa Password?</a>
+          </div>
+          <div class="input-wrap has-toggle">
+            <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <input id="login-password" type="password" placeholder="Masukkan password" autocomplete="current-password" required>
+            <button type="button" class="pass-toggle" data-toggle-pass aria-label="Tampilkan password">
+              <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-yellow btn-block">Login ke Akun →</button>
+
+        <p class="auth-switch">Belum punya akun? <a href="#" data-switch-to="register">Daftar di sini</a></p>
+        <p class="auth-fineprint">Dilindungi reCAPTCHA dan tunduk pada Kebijakan Privasi.</p>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form class="auth-form" data-form="register" novalidate>
+        <p class="form-error" role="alert"></p>
+
+        <div class="field">
+          <label for="reg-name">Nama Lengkap</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+            <input id="reg-name" type="text" placeholder="Masukkan nama lengkap" autocomplete="name" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reg-contact">Email atau Username</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <input id="reg-contact" type="text" placeholder="contoh@email.com atau username" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reg-password">Kata Sandi</label>
+          <div class="input-wrap has-toggle">
+            <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <input id="reg-password" type="password" placeholder="Minimal 8 karakter" autocomplete="new-password" required>
+            <button type="button" class="pass-toggle" data-toggle-pass aria-label="Tampilkan password">
+              <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reg-password-confirm">Konfirmasi Kata Sandi</label>
+          <div class="input-wrap has-toggle">
+            <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <input id="reg-password-confirm" type="password" placeholder="Ketik ulang kata sandi" autocomplete="new-password" required>
+            <button type="button" class="pass-toggle" data-toggle-pass aria-label="Tampilkan password">
+              <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-yellow btn-block">Daftar Sekarang →</button>
+
+        <div class="auth-divider">atau daftar dengan</div>
+
+        <button type="button" class="btn btn-google btn-block" data-soon="Login dengan Google belum tersedia di versi demo.">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+          Google
+        </button>
+
+        <p class="auth-switch">Sudah punya akun? <a href="#" data-switch-to="login">Masuk di sini</a></p>
+      </form>
+    </div>
+  </main>
+
+</div>
+
+</body>
+</html>

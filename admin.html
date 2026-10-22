@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin — Mie Ayam Gendok</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/auth.js" data-guard="admin"></script>
+<style>
+  body { background: #f7f3ec; }
+  .adm-top { background: var(--white); border-bottom: 1px solid var(--border); }
+  .adm-top .wrap { display:flex; align-items:center; justify-content:space-between; height:70px; }
+  .adm-badge { background: var(--red-soft); color: var(--red); font-size:.72rem; font-weight:700; padding:3px 10px; border-radius:999px; margin-left:8px; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin:28px 0; }
+  .stat { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-md); padding:18px 20px; }
+  .stat .label { color:var(--gray); font-size:.82rem; }
+  .stat .value { font-family:'Poppins',sans-serif; font-weight:700; font-size:1.6rem; margin-top:4px; }
+  .stat.alert .value { color: var(--red); }
+  .toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:18px; }
+  .toolbar input, .toolbar select { padding:10px 14px; border:1px solid var(--border); border-radius:999px; font-family:inherit; font-size:.9rem; background:var(--white); }
+  .toolbar input { flex:1; min-width:200px; }
+  .order-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-md); padding:20px 22px; margin-bottom:14px; }
+  .order-card.baru { border-left:4px solid var(--red); }
+  .order-head { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:12px; }
+  .order-meta { color:var(--gray); font-size:.84rem; }
+  .pill { font-size:.74rem; font-weight:700; padding:4px 11px; border-radius:999px; }
+  .pill.baru { background:var(--red-soft); color:var(--red); }
+  .pill.diproses { background:#fff4d6; color:#9a6b00; }
+  .pill.selesai { background:#e6f6ea; color:#2d8a4e; }
+  .pill.dibatalkan { background:#eee; color:#777; }
+  .order-body { display:grid; grid-template-columns:1.4fr 1fr; gap:24px; }
+  .order-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; align-items:center; }
+  .order-actions select { padding:8px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; }
+  .link-del { background:none; color:var(--gray); font-size:.82rem; text-decoration:underline; margin-left:auto; }
+  .empty { text-align:center; color:var(--gray); padding:60px 0; }
+  /* login gate */
+  .gate { min-height:100vh; display:grid; place-items:center; padding:20px; }
+  .gate .panel { width:100%; max-width:360px; }
+  .err { color:var(--red); font-size:.85rem; margin-top:10px; display:none; }
+  @media (max-width:860px) { .stats { grid-template-columns:repeat(2,1fr); } .order-body { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<!-- DASHBOARD -->
+<div id="dash">
+  <header class="adm-top">
+    <div class="wrap">
+      <a href="admin.html" class="logo"><span class="bowl">🍜</span> Mie Ayam Gendok <span class="adm-badge">ADMIN</span></a>
+      <div style="display:flex; gap:10px;">
+        <a href="index.html" class="btn btn-outline btn-sm">Lihat Website</a>
+        <button class="btn btn-red btn-sm" id="logout" type="button">Keluar</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-bottom:80px;">
+    <div class="stats">
+      <div class="stat alert"><div class="label">Pesanan Baru</div><div class="value" id="st-baru">0</div></div>
+      <div class="stat"><div class="label">Sedang Diproses</div><div class="value" id="st-proses">0</div></div>
+      <div class="stat"><div class="label">Total Pesanan <span style="font-size:.72rem;">(semua status)</span></div><div class="value" id="st-total">0</div></div>
+      <div class="stat"><div class="label">Pendapatan (selesai)</div><div class="value" id="st-income">Rp0</div></div>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Cari nama pelanggan, no. WhatsApp, atau ID pesanan...">
+      <select id="f-status">
+        <option value="all">Semua status</option>
+        <option value="baru">Pesanan Baru</option>
+        <option value="diproses">Sedang Diproses</option>
+        <option value="selesai">Selesai</option>
+        <option value="dibatalkan">Dibatalkan</option>
+      </select>
+    </div>
+
+    <p id="src-info" class="order-meta" style="margin:-6px 0 16px;"></p>
+    <p id="load-err" class="order-meta" style="display:none; color:var(--red); margin-bottom:12px;"></p>
+    <div id="list"></div>
+  </main>
+</div>
+
+<script src="assets/js/cart.js"></script>
+<script>
+  const STATUS = { baru:'Pesanan Baru', diproses:'Sedang Diproses', selesai:'Selesai', dibatalkan:'Dibatalkan' };
+  const PAY = { tunai:'Tunai', qris:'QRIS', transfer:'Bank Transfer' };
+  const DLV = { ambil:'Ambil Sendiri', kurir:'Kurir' };
+
+  let orders = [];
+  let lastSig = null;
+
+  const st = (o) => (STATUS[o.status] ? o.status : 'baru');
+  const $ = (id) => document.getElementById(id);
+
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  $('logout').addEventListener('click', () => Auth.logout());
+
+  // Ambil data terbaru dari sumber yang sama dengan checkout pelanggan (Orders di cart.js)
+  async function load(force) {
+    try {
+      const list = await Orders.all();
+      $('load-err').style.display = 'none';
+      const sig = JSON.stringify(list);
+      if (force || sig !== lastSig) { lastSig = sig; orders = list; render(); }
+    } catch (err) {
+      $('load-err').textContent = 'Gagal memuat pesanan: ' + err.message;
+      $('load-err').style.display = 'block';
+    }
+  }
+
+  function render() {
+    const all = orders;
+    const q = $('q').value.trim().toLowerCase();
+    const fs = $('f-status').value;
+
+    // statistik (selalu dari SEMUA pesanan, tidak terpengaruh filter)
+    $('st-baru').textContent = all.filter((o) => st(o) === 'baru').length;
+    $('st-proses').textContent = all.filter((o) => st(o) === 'diproses').length;
+    $('st-total').textContent = all.length;
+    $('st-income').textContent = formatRupiah(
+      all.filter((o) => st(o) === 'selesai').reduce((s, o) => s + (Number(o.total) || 0), 0)
+    );
+
+    const rows = all.filter((o) => {
+      if (fs !== 'all' && st(o) !== fs) return false;
+      if (!q) return true;
+      const c = o.customer || {};
+      return [o.id, c.name, c.wa].join(' ').toLowerCase().includes(q);
+    });
+
+    const list = $('list');
+    if (all.length === 0) {
+      list.innerHTML = '<div class="empty"><p style="font-size:2.2rem;">🧾</p><p>Belum ada pesanan</p></div>';
+      return;
+    }
+    if (rows.length === 0) {
+      list.innerHTML = '<div class="empty"><p style="font-size:2.2rem;">🔍</p><p>Tidak ada pesanan yang cocok dengan pencarian/filter.</p></div>';
+      return;
+    }
+
+    list.innerHTML = rows.map((o) => {
+      const c = o.customer || {};
+      const s = st(o);
+      const waNum = (c.wa || '').replace(/\D/g, '').replace(/^0/, '62');
+      return `
+      <div class="order-card ${s}">
+        <div class="order-head">
+          <div><strong>#${esc(o.id)}</strong> <span class="order-meta">&middot; ${esc(o.date)}</span></div>
+          <span class="pill ${s}">${STATUS[s]}</span>
+        </div>
+        <div class="order-body">
+          <div>
+            ${(o.items || []).map((it) => `
+              <div class="summary-item" style="padding:6px 0;">
+                <div><div class="name">${esc(it.name)}</div><div class="sub">${it.qty} x ${formatRupiah(it.price)}</div></div>
+                <div>${formatRupiah(it.qty * it.price)}</div>
+              </div>`).join('')}
+            <div class="summary-total"><span>Total</span><span class="amount">${formatRupiah(o.total)}</span></div>
+          </div>
+          <div style="font-size:.9rem; line-height:1.8;">
+            <div><strong>${esc(c.name || '-')}</strong></div>
+            <div class="order-meta">WhatsApp: ${esc(c.wa || '-')}</div>
+            <div class="order-meta">Pengiriman: ${DLV[o.delivery] || esc(o.delivery)}</div>
+            ${c.address ? `<div class="order-meta">Alamat: ${esc(c.address)}</div>` : ''}
+            <div class="order-meta">Pembayaran: ${PAY[o.payment] || esc(o.payment)}</div>
+            ${c.note ? `<div style="margin-top:6px; background:var(--cream); padding:8px 10px; border-radius:8px;">📝 ${esc(c.note)}</div>` : ''}
+          </div>
+        </div>
+        <div class="order-actions">
+          <select data-status="${esc(o.id)}">
+            ${Object.keys(STATUS).map((k) => `<option value="${k}" ${k === s ? 'selected' : ''}>${STATUS[k]}</option>`).join('')}
+          </select>
+          ${waNum ? `<a class="btn btn-outline btn-sm" target="_blank" rel="noopener" href="https://wa.me/${waNum}?text=${encodeURIComponent('Halo ' + (c.name || '') + ', pesanan #' + o.id + ' di Mie Ayam Gendok sedang kami proses.')}">Chat WhatsApp</a>` : ''}
+          <button type="button" class="link-del" data-del="${esc(o.id)}">Hapus</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  document.addEventListener('change', async (e) => {
+    const sel = e.target.closest('[data-status]');
+    if (!sel) return;
+    try { await Orders.setStatus(sel.dataset.status, sel.value); }
+    catch (err) { alert('Gagal mengubah status: ' + err.message); }
+    load(true);
+  });
+
+  document.addEventListener('click', async (e) => {
+    const del = e.target.closest('[data-del]');
+    if (!del) return;
+    if (!confirm('Hapus pesanan ini?')) return;
+    try { await Orders.remove(del.dataset.del); }
+    catch (err) { alert('Gagal menghapus: ' + err.message); }
+    load(true);
+  });
+
+  $('q').addEventListener('input', render);
+  $('f-status').addEventListener('change', render);
+
+  // Sinkronisasi: tab lain, kembali ke tab ini, jendela difokuskan, halaman dari cache, dan polling berkala
+  window.addEventListener('storage', (e) => { if (e.key === 'mag_orders') load(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+  window.addEventListener('focus', () => load());
+  window.addEventListener('pageshow', () => load());
+  setInterval(load, 5000);
+
+  // Info sumber data (membantu mendeteksi kasus "pesanan tidak muncul")
+  Orders.mode().then((m) => {
+    $('src-info').textContent = m === 'server'
+      ? 'Sumber data: server (data/orders.json) — pesanan dari semua perangkat tampil di sini.'
+      : 'Sumber data: penyimpanan browser ini (' + location.origin + '). Hanya pesanan yang dibuat di browser & alamat yang sama yang terlihat. Jalankan lewat server.js agar semua perangkat terhubung.';
+  });
+
+  load(true);
+</script>
+</body>
+</html>

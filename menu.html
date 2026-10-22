@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu Kami — Mie Ayam Gendok</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/auth.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="bowl">🍜</span> Mie Ayam Gendok</a>
+    <nav class="main-nav">
+      <a href="index.html">Beranda</a>
+      <a href="menu.html" class="active">Menu</a>
+      <a href="orders.html">Pesanan Saya</a>
+      <a href="index.html#kontak">Kontak</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html" class="btn-outline btn btn-sm">Login</a>
+      <a href="cart.html" class="btn btn-red btn-sm">Pesan Sekarang</a>
+      <a href="cart.html" class="cart-btn" aria-label="Keranjang">
+        🛒 <span class="cart-count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="menu-header">
+  <div class="wrap">
+    <h1>Menu Kami</h1>
+    <p>Pilih hidangan favoritmu dari menu andalan Mie Ayam Gendok. Disajikan segar dengan bahan berkualitas tinggi untuk pengalaman kuliner terbaik.</p>
+
+    <div style="max-width:420px; margin:30px auto 0;">
+      <input type="search" id="menu-search" placeholder="Cari menu, mis. 'bakso'..."
+        style="width:100%; padding:13px 16px; border:1px solid var(--border); border-radius:999px; font-family:inherit; font-size:0.92rem; background:var(--cream);">
+    </div>
+    <div style="display:flex; justify-content:center; gap:10px; margin-top:16px; flex-wrap:wrap;">
+      <button type="button" class="btn btn-sm btn-red filter-btn active" data-filter="all">Semua</button>
+      <button type="button" class="btn btn-sm btn-outline filter-btn" data-filter="mie-ayam">Mie Ayam</button>
+      <button type="button" class="btn btn-sm btn-outline filter-btn" data-filter="pangsit-minuman">Pangsit &amp; Minuman</button>
+    </div>
+  </div>
+</section>
+
+<p id="menu-no-result" style="display:none; text-align:center; color:var(--gray); padding: 10px 0 0;">Tidak ada menu yang cocok dengan pencarianmu.</p>
+
+<section class="menu-section" data-category="mie-ayam">
+  <div class="wrap">
+    <h2>Mie Ayam</h2>
+    <div class="card-grid">
+
+      <article class="menu-card">
+        <div class="thumb"><img src="assets/img/Mie-Ayam-Pangsit.png" alt="mie-pangsit-basah"></div>
+        <div class="body">
+          <h3>Mie Ayam Pangsit (Basah)</h3>
+          <p class="rating">★★★★☆ <span class="num">4.6</span></p>
+          <div class="row">
+            <span class="price">Rp13.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="mie-pangsit-basah" data-name="Mie Ayam Pangsit (Basah)" data-price="13000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card">
+        <div class="thumb"><img src="assets/img/mie-bakso.png" alt="Mie Ayam bakso"></div>
+        <div class="body">
+          <h3>Mie Ayam Bakso</h3>
+          <p class="rating">★★★★★ <span class="num">4.8</span></p>
+          <div class="row">
+            <span class="price">Rp15.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="mie-bakso" data-name="Mie Ayam Bakso" data-price="15000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card">
+          <div class="thumb"><img src="assets/img/mie-ceker.png" alt="Mie Ayam Ceker"></div>
+        <div class="body">
+          <h3>Mie Ayam Ceker</h3>
+          <p class="rating">★★★★☆ <span class="num">4.7</span></p>
+          <div class="row">
+            <span class="price">Rp12.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="mie-ceker" data-name="Mie Ayam Ceker" data-price="12000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card">
+        <div class="thumb"><img src="assets/img/mie ayam original.png" alt="Mie Ayam Original"></div>
+        <div class="body">
+          <h3>Mie Ayam Original</h3>
+          <p class="rating">★★★★★ <span class="num">4.9</span></p>
+          <div class="row">
+            <span class="price">Rp10.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="mie-original" data-name="Mie Ayam Original" data-price="10000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" data-category="pangsit-minuman">
+  <div class="wrap">
+    <h2>Pangsit Basah &amp; Minuman</h2>
+    <div class="card-grid">
+
+      <article class="menu-card">
+        <div class="thumb"><img src="assets/img/bakso pangsit.png" alt="bakso pangsit"></div>
+        <div class="body">
+          <h3>Pangsit Bakso (Kuah)</h3>
+          <p class="rating">★★★★☆ <span class="num">4.5</span></p>
+          <div class="row">
+            <span class="price">Rp15.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="pangsit-bakso-kuah" data-name="Pangsit Bakso (Kuah)" data-price="15000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card">
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1583224964978-2257b960c3d3?q=80&w=600&auto=format&fit=crop" alt="Pangsit Ceker (Kuah)"></div>
+        <div class="body">
+          <h3>Pangsit Ceker (Kuah)</h3>
+          <p class="rating">★★★★☆ <span class="num">4.4</span></p>
+          <div class="row">
+            <span class="price">Rp14.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="pangsit-ceker-kuah" data-name="Pangsit Ceker (Kuah)" data-price="14000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card">
+        <div class="thumb"><img src="assets/img/pangsit originl.png" alt="pangsit original"></div>
+        <div class="body">
+          <h3>Pangsit Original (Kuah)</h3>
+          <p class="rating">★★★★☆ <span class="num">4.6</span></p>
+          <div class="row">
+            <span class="price">Rp12.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="pangsit-original-kuah" data-name="Pangsit Original (Kuah)" data-price="12000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="menu-card">
+        <div class="thumb"><img src="assets/img/es teh.png" alt="es teh"></div>
+        <div class="body">
+          <h3>Es Teh Manis</h3>
+          <p class="rating">★★★★★ <span class="num">4.9</span></p>
+          <div class="row">
+            <span class="price">Rp5.000</span>
+            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="es-teh-manis" data-name="Es Teh Manis" data-price="5000">Beli</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo">🍜 Mie Ayam Gendok</a>
+        <p class="tagline">Digital Comfort Food. Menghangatkan harimu, satu mangkuk pesanan sekaligus.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tautan</h4>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="index.html#kontak">Kontak</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hubungi Kami</h4>
+        <ul>
+          <li><a href="#">Alamat</a></li>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">Google Maps</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-bottom">© 2026 Mie Ayam Gendok. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/cart.js"></script>
+<script>
+  const searchInput = document.getElementById('menu-search');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const sections = document.querySelectorAll('.menu-section[data-category]');
+  const noResult = document.getElementById('menu-no-result');
+  let activeFilter = 'all';
+
+  function applyFilters() {
+    const query = searchInput.value.trim().toLowerCase();
+    let anyVisible = false;
+
+    sections.forEach((section) => {
+      const matchesCategory = activeFilter === 'all' || section.dataset.category === activeFilter;
+      let sectionHasMatch = false;
+
+      section.querySelectorAll('.menu-card').forEach((card) => {
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        const matchesSearch = name.includes(query);
+        const visible = matchesCategory && matchesSearch;
+        card.style.display = visible ? '' : 'none';
+        if (visible) sectionHasMatch = true;
+      });
+
+      section.style.display = (matchesCategory && sectionHasMatch) ? '' : 'none';
+      if (sectionHasMatch) anyVisible = true;
+    });
+
+    noResult.style.display = anyVisible ? 'none' : 'block';
+  }
+
+  searchInput.addEventListener('input', applyFilters);
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove('btn-red', 'active');
+        b.classList.add('btn-outline');
+      });
+      btn.classList.remove('btn-outline');
+      btn.classList.add('btn-red', 'active');
+      activeFilter = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+</script>
+</body>
+</html>
