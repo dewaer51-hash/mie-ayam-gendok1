@@ -1,0 +1,10 @@
+[
+  {
+    "username": "admin@mieayamgendok.com",
+    "name": "Admin",
+    "role": "admin",
+    "salt": "c0747fbbc71d8266932f0854eeb4ad22",
+    "hash": "37a32217d4eb1977bff718b0559e17fba49169ebb5c0bb039d76325f06f6e45248736a3bf3720d2d01f357567f73a6e08426fa51f5b753dfee70b1b0d1218458",
+    "createdAt": "2026-10-23T02:56:18.541Z"
+  }
+]

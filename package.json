@@ -1,6 +1,8 @@
 {
   "name": "mie-ayam-gendok",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "scripts": { "start": "node server.js" }
+  "description": "Website pemesanan Mie Ayam Gendok - satu backend untuk admin & pelanggan",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
 }

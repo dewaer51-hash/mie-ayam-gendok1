@@ -1,0 +1,74 @@
+[
+  {
+    "id": "mie-pangsit-basah",
+    "name": "Mie Ayam Pangsit (Basah)",
+    "price": 13000,
+    "category": "mie-ayam",
+    "rating": 4.6,
+    "image": "assets/img/Mie-Ayam-Pangsit.png",
+    "available": true
+  },
+  {
+    "id": "mie-bakso",
+    "name": "Mie Ayam Bakso",
+    "price": 15000,
+    "category": "mie-ayam",
+    "rating": 4.8,
+    "image": "assets/img/mie-bakso.png",
+    "available": true
+  },
+  {
+    "id": "mie-ceker",
+    "name": "Mie Ayam Ceker",
+    "price": 12000,
+    "category": "mie-ayam",
+    "rating": 4.7,
+    "image": "assets/img/mie-ceker.png",
+    "available": true
+  },
+  {
+    "id": "mie-original",
+    "name": "Mie Ayam Original",
+    "price": 10000,
+    "category": "mie-ayam",
+    "rating": 4.9,
+    "image": "assets/img/mie ayam original.png",
+    "available": true
+  },
+  {
+    "id": "pangsit-bakso-kuah",
+    "name": "Pangsit Bakso (Kuah)",
+    "price": 15000,
+    "category": "pangsit-minuman",
+    "rating": 4.5,
+    "image": "assets/img/bakso pangsit.png",
+    "available": true
+  },
+  {
+    "id": "pangsit-ceker-kuah",
+    "name": "Pangsit Ceker (Kuah)",
+    "price": 14000,
+    "category": "pangsit-minuman",
+    "rating": 4.4,
+    "image": "",
+    "available": true
+  },
+  {
+    "id": "pangsit-original-kuah",
+    "name": "Pangsit Original (Kuah)",
+    "price": 12000,
+    "category": "pangsit-minuman",
+    "rating": 4.6,
+    "image": "",
+    "available": true
+  },
+  {
+    "id": "es-teh-manis",
+    "name": "Es Teh Manis",
+    "price": 5000,
+    "category": "pangsit-minuman",
+    "rating": 4.9,
+    "image": "assets/img/es teh.png",
+    "available": true
+  }
+]

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pesanan Saya — Mie Ayam Gendok</title>
 <link rel="stylesheet" href="assets/css/style.css">
-<script src="assets/js/auth.js" data-guard="customer"></script>
+<script src="assets/js/auth.js" data-guard="user"></script>
 </head>
 <body>
 
@@ -46,10 +46,11 @@
 <script>
   const PAYMENT_LABEL = { tunai: 'Tunai', qris: 'QRIS', transfer: 'Bank Transfer' };
   const DELIVERY_LABEL = { ambil: 'Ambil Sendiri', kurir: 'Kurir' };
-  const STATUS_LABEL = { baru: 'Pesanan Baru', diproses: 'Sedang Diproses', selesai: 'Selesai', dibatalkan: 'Dibatalkan' };
+  const STATUS_LABEL = { baru: 'Menunggu', diproses: 'Sedang Diproses', siap: 'Siap', selesai: 'Selesai', dibatalkan: 'Dibatalkan' };
   const STATUS_STYLE = {
     baru: 'background:#fdecea;color:#c0392b;',
     diproses: 'background:#fff4d6;color:#9a6b00;',
+    siap: 'background:#e3f0ff;color:#1b5fb0;',
     selesai: 'background:#f2fbf4;color:#2d8a4e;',
     dibatalkan: 'background:#eee;color:#777;'
   };
@@ -103,11 +104,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', renderOrders);
-  // status diperbarui admin di tab lain -> tampil otomatis
-  window.addEventListener('storage', (e) => { if (e.key === 'mag_orders') renderOrders(); });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) renderOrders(); });
   window.addEventListener('pageshow', renderOrders);
-  setInterval(renderOrders, 8000);
+  setInterval(renderOrders, 5000);   // status dari admin tampil otomatis
 </script>
 </body>
 </html>

@@ -51,34 +51,7 @@
       <h2>Menu Andalan Kami</h2>
       <p>Dua favorit pelanggan yang selalu ludes lebih dulu.</p>
     </div>
-    <div class="card-grid">
-      <article class="menu-card">
-        <div class="thumb">
-          <img src="assets/img/mie ayam original.png" alt="Mie Ayam Original">
-        </div>
-        <div class="body">
-          <h3>Mie Ayam Original</h3>
-          <p class="rating">★★★★★ <span class="num">4.9</span></p>
-          <div class="row">
-            <span class="price">Rp10.000</span>
-            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="mie-original" data-name="Mie Ayam Original" data-price="10000">Beli</button>
-          </div>
-        </div>
-      </article>
-      <article class="menu-card">
-        <div class="thumb">
-          <img src="assets/img/mie-bakso.png" alt="Mie Ayam Bakso">
-        </div>
-        <div class="body">
-          <h3>Mie Ayam Bakso</h3>
-          <p class="rating">★★★★★ <span class="num">4.8</span></p>
-          <div class="row">
-            <span class="price">Rp15.000</span>
-            <button class="btn btn-yellow btn-sm" data-add-to-cart data-id="mie-bakso" data-name="Mie Ayam Bakso" data-price="15000">Beli</button>
-          </div>
-        </div>
-      </article>
-    </div>
+    <div class="card-grid" id="featured-grid"></div>
   </div>
 </section>
 
@@ -128,5 +101,14 @@
 </footer>
 
 <script src="assets/js/cart.js"></script>
+<script>
+  // "Menu Andalan" = 2 menu mie ayam dengan rating tertinggi dari data menu yang sama
+  (async function () {
+    try {
+      const items = Menu.featured(await Menu.list());
+      document.getElementById('featured-grid').innerHTML = items.map(Menu.cardHTML).join('');
+    } catch (e) {}
+  })();
+</script>
 </body>
 </html>
